@@ -39,11 +39,11 @@ function App() {
             <input type="search" placeholder='Procurar ou começar uma nova conversa' />
           </div>
         </div>
-        <div className={styles.container_Sidebar_Chart}>
+        <section className={styles.container_Sidebar_Chart}>
           {chatList.map((item, index) => (
             <ChatListItem key={index} data={item} />
           ))}
-        </div>
+        </section>
       </nav>
 
       <main className={styles.Container_Main}>

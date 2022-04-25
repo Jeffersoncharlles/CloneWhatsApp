@@ -1,0 +1,52 @@
+.container {
+    display: flex;
+    align-items: center;
+    height: 4.3rem; //70px
+    cursor: pointer;
+
+    img {
+        width: 3.1rem; //50px
+        height: 3.1rem; //50px
+        border-radius: 50%; //25px
+        margin-left: 1rem;
+    }
+
+    &_Chat {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        border-bottom: 1px solid rgb(231, 229, 229);
+        padding-right: 1rem;
+        margin-left: 1rem;
+
+        &_Info {
+            display: flex;
+            justify-content: space-between; //name left hours right
+            align-items: center;
+            width: 100%;
+
+            span {
+                font-size: 1.1rem;
+                color: #000;
+            }
+
+            small {
+                font-size: 0.75rem; //12px
+                color: #999;
+            }
+
+
+            >div {
+                font-size: 0.875rem; //14px
+                color: #999;
+                display: flex;
+                width: 100%;
+
+                p {
+                    margin-top: 0px;
+                }
+            }
+        }
+    }
+}

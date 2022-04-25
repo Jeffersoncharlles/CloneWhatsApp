@@ -68,7 +68,11 @@
         }
     }
 
-    &_Chart {}
+    &_Chart {
+        flex: 1;
+        background: #fff;
+        overflow-y: auto; //se tiver muito ele tem rolagem
+    }
 }
 
 .styles.Container_Main {}
