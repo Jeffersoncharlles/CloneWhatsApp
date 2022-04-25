@@ -1,15 +1,18 @@
 import styles from './styles.module.scss'
 
 interface IChat {
+    key: number;
     data: {
-
-    }
+        chadId: string;
+    };
+    active: () => void
 }
 
-export const ChatListItem = ({ }: IChat) => {
+export const ChatListItem = ({ data, active }: IChat) => {
+
 
     return (
-        <div className={styles.container}>
+        <div className={styles.container} onClick={active}>
             <img src="https://randomuser.me/api/portraits/women/91.jpg" alt="" />
             <div className={styles.container_Chat}>
                 <div className={styles.container_Chat_Info}>

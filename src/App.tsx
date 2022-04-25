@@ -6,10 +6,17 @@ import ChatIcon from '@mui/icons-material/Chat';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import SearchIcon from '@mui/icons-material/Search';
 import { ChatListItem } from './components/ChatListItem';
+import { ChatNoSelect } from './components/ChatNoSelect';
+import { ChatWindow } from './components/ChatWindow';
 
+
+interface IActiveChat {
+  chadId: string;
+}
 
 function App() {
-  const [chatList, setChatList] = useState([{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}])
+  const [chatList, setChatList] = useState<IActiveChat[]>([{ chadId: '2' }, { chadId: '1' }, { chadId: '4' }])
+  const [activeChat, setActiveChat] = useState<IActiveChat>({} as IActiveChat);
 
   useEffect(() => {
 
@@ -41,13 +48,23 @@ function App() {
         </div>
         <section className={styles.container_Sidebar_Chart}>
           {chatList.map((item, index) => (
-            <ChatListItem key={index} data={item} />
+            <ChatListItem
+              key={index}
+              data={item}
+              active={() => setActiveChat(item)}
+            />
           ))}
         </section>
       </nav>
 
       <main className={styles.Container_Main}>
-        ...
+        {activeChat.chadId !== undefined ? (
+          <ChatWindow />
+        ) : (
+          <ChatNoSelect />
+        )}
+
+
       </main>
     </div>
   )
