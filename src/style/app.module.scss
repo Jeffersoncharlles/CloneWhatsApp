@@ -72,6 +72,16 @@
         flex: 1;
         background: #fff;
         overflow-y: auto; //se tiver muito ele tem rolagem
+
+        //personalizar barra de rolagem
+        &::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: rgba($color: #000000, $alpha: .2);
+        }
     }
 }
 

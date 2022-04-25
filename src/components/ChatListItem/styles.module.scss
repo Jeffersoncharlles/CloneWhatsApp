@@ -2,7 +2,13 @@
     display: flex;
     align-items: center;
     height: 4.3rem; //70px
+    transition: all ease-in .3s;
     cursor: pointer;
+
+
+    &:hover {
+        background: #f5f5f5;
+    }
 
     img {
         width: 3.1rem; //50px
@@ -13,12 +19,18 @@
 
     &_Chat {
         flex: 1;
+        height: 100%;
         display: flex;
         flex-direction: column;
         justify-content: center;
         border-bottom: 1px solid rgb(231, 229, 229);
         padding-right: 1rem;
         margin-left: 1rem;
+
+        //corrigir o p
+        //com flex
+        flex-wrap: wrap;
+        min-width: 0; //com isso quando nao tem mais ele coloca...
 
         &_Info {
             display: flex;
@@ -36,7 +48,6 @@
                 color: #999;
             }
 
-
             >div {
                 font-size: 0.875rem; //14px
                 color: #999;
@@ -44,7 +55,17 @@
                 width: 100%;
 
                 p {
-                    margin-top: 0px;
+                    /* 
+                    flex-wrap: wrap;
+                    min-width: 0; 
+                    //colocar na div acima
+                    */
+
+                    margin: 0;
+                    overflow: hidden; // nao ter rolagem
+                    white-space: nowrap; //nao ir para baixo
+                    text-overflow: ellipsis; //colocar ... quando nao cabe
+
                 }
             }
         }
