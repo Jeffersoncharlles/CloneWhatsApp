@@ -12,10 +12,19 @@ import { ChatWindow } from './components/ChatWindow';
 
 interface IActiveChat {
   chadId: string;
+  name: string;
+  message: string;
+  image: string;
 }
 
+const users = [
+  { chadId: '1s', name: 'Shelly Hunter', message: 'hello how are you?', image: 'https://randomuser.me/api/portraits/women/91.jpg' },
+  { chadId: '12s', name: 'Gwendolyn Jacobs', message: 'Hi !my boy ', image: 'https://randomuser.me/api/portraits/women/78.jpg' },
+  { chadId: '13s', name: 'Brett Hunt', message: 'Yeap! brother...!', image: 'https://randomuser.me/api/portraits/men/86.jpg' },
+]
+
 function App() {
-  const [chatList, setChatList] = useState<IActiveChat[]>([{ chadId: '2' }, { chadId: '1' }, { chadId: '4' }])
+  const [chatList, setChatList] = useState<IActiveChat[]>(users)
   const [activeChat, setActiveChat] = useState<IActiveChat>({} as IActiveChat);
 
   useEffect(() => {
@@ -51,7 +60,8 @@ function App() {
             <ChatListItem
               key={index}
               data={item}
-              active={() => setActiveChat(item)}
+              setActive={() => setActiveChat(item)}
+              active={activeChat.chadId === item.chadId}
             />
           ))}
         </section>
@@ -63,8 +73,6 @@ function App() {
         ) : (
           <ChatNoSelect />
         )}
-
-
       </main>
     </div>
   )

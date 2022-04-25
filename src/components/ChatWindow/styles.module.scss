@@ -1,1 +1,106 @@
-.container {}
+.btn_c {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+
+    svg {
+        width: 2rem; //40px
+        height: 2rem; //40px
+        border-radius: 50%;
+    }
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    header {
+        height: 3.75rem; //60px
+        border-bottom: 1px solid #ccc;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .he_info {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+
+            >img {
+                width: 2.5rem; //40px
+                height: 2.5rem; //40px
+                border-radius: 50%; //20px
+                margin-left: 1rem;
+                margin-right: 1rem;
+            }
+
+            span {
+                font-size: 1.1rem;
+                color: #000;
+            }
+        }
+
+        .he_btn {
+            display: flex;
+            align-items: center;
+            margin-right: 1rem;
+
+
+            div {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                cursor: pointer;
+
+                svg {
+                    width: 2rem; //40px
+                    height: 2rem; //40px
+                    border-radius: 50%;
+                }
+            }
+        }
+    }
+
+    article {
+        flex: 1;
+        overflow-y: auto; //scroll
+        background: #e5ddd5 url('../../assets/bg-whatp.png') center;
+        // background-size: cover;
+
+    }
+
+    footer {
+        height: 3.875rem; //62px
+        display: flex;
+        align-items: center;
+
+
+        .pre {
+            display: flex;
+            margin: 0 1rem;
+        }
+
+        .content {
+            flex: 1;
+
+            input {
+                background: #fff;
+                width: 100%;
+                height: 2.5rem; //40px
+                outline: 0;
+                border: 0;
+                border-radius: 20px;
+                font-size: 1rem;
+                color: #4a4a4a;
+                padding-left: 1rem;
+            }
+        }
+
+        .send {
+            display: flex;
+            margin: 0 2rem;
+        }
+    }
+}

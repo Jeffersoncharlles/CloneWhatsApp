@@ -5,6 +5,9 @@
     transition: all ease-in .3s;
     cursor: pointer;
 
+    &.active {
+        background: #ededed;
+    }
 
     &:hover {
         background: #f5f5f5;
