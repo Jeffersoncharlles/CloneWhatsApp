@@ -9,6 +9,12 @@
         height: 2rem; //40px
         border-radius: 50%;
     }
+
+    &._b {
+        svg {
+            color: #126ECE;
+        }
+    }
 }
 
 .container {
@@ -63,10 +69,21 @@
         }
     }
 
+
+    .content_E {
+        height: 350px;
+        overflow-y: hidden;
+        transition: all ease .3s;
+    }
+
+    // .emoji-picker-react {
+    //     width: auto;
+    // }
+
     article {
         flex: 1;
         overflow-y: auto; //scroll
-        background: #e5ddd5 url('../../assets/bg-whatp.png') center;
+        background: #e5ddd5 url('../../assets/bg-whatp.png');
         // background-size: cover;
 
     }

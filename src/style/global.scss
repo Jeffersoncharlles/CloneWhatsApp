@@ -18,6 +18,15 @@ svg {
     color: #919191;
 }
 
+aside.emoji-picker-react {
+    width: auto;
+    background: none;
+
+    .emoji-group::before {
+        background: none;
+    }
+}
+
 h1,
 h2,
 h3,
