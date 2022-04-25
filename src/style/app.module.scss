@@ -1,0 +1,74 @@
+.app {
+    display: flex;
+    height: 100vh;
+    background: #EDEDED;
+}
+
+.btn {
+
+    width: 2.5rem; //40px
+    height: 2.5rem; //40px
+    border-radius: 1.25rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+
+    svg {
+        color: #919191;
+    }
+}
+
+.container_Sidebar {
+    width: 35%;
+    max-width: 25rem; //415px
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid #ddd;
+
+    header {
+        height: 3.75rem; //60px
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 1rem; //0 em cima em baixo //16px laterais
+
+        >img {
+            width: 2.5rem; //40px
+            height: 2.5rem; //40px
+            border-radius: 1.25rem; //20px
+            cursor: pointer;
+        }
+
+        >div {
+            display: flex;
+        }
+    }
+
+    &_Search {
+        background: #f6f6f6f6;
+        border-bottom: 1px solid #eee;
+        padding: 5px 15px;
+
+        >div {
+            background: #ffff;
+            height: 2.5rem;
+            border-radius: 1.25rem;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+
+            input {
+                flex: 1; //ícone pega o espaço dele e o input o restante
+                border: 0;
+                outline: 0;
+                background: transparent;
+                margin-left: 10px;
+            }
+        }
+    }
+
+    &_Chart {}
+}
+
+.styles.Container_Main {}
