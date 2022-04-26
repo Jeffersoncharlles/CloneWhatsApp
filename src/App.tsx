@@ -8,6 +8,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { ChatListItem } from './components/ChatListItem';
 import { ChatNoSelect } from './components/ChatNoSelect';
 import { ChatWindow } from './components/ChatWindow';
+import { NewChat } from './components/NewChat';
 
 
 interface IActiveChat {
@@ -19,13 +20,15 @@ interface IActiveChat {
 
 const users = [
   { chadId: '1s', name: 'Shelly Hunter', message: 'hello how are you?', image: 'https://randomuser.me/api/portraits/women/91.jpg' },
-  { chadId: '1s', name: 'Shelly Hunter', message: 'Hi !my boy ', image: 'https://randomuser.me/api/portraits/women/91.jpg' },
-  { chadId: '1s', name: 'Shelly Hunter', message: 'Yeap! brother...!', image: 'https://randomuser.me/api/portraits/women/91.jpg' },
+  { chadId: '1ss', name: 'Shelly Hunter', message: 'Hi !my boy ', image: 'https://randomuser.me/api/portraits/women/91.jpg' },
+  { chadId: '1sss', name: 'Shelly Hunter', message: 'Yeap! brother...!', image: 'https://randomuser.me/api/portraits/women/91.jpg' },
 ]
 
 function App() {
   const [chatList, setChatList] = useState<IActiveChat[]>(users)
   const [activeChat, setActiveChat] = useState<IActiveChat>({} as IActiveChat);
+  const [user, setUser] = useState({ userId: '111' })
+  const [showNewChat, setShowNewChat] = useState(false)
 
   useEffect(() => {
 
@@ -35,13 +38,19 @@ function App() {
     <div className={styles.container}>
       <div className={styles.app}>
         <nav className={styles.container_Sidebar}>
+          <NewChat
+            user={user}
+            show={showNewChat}
+            setShow={setShowNewChat}
+            chatList={chatList}
+          />
           <header>
             <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="" />
             <div>
               <div className={styles.btn}>
                 <DonutLargeIcon />
               </div>
-              <div className={styles.btn}>
+              <div className={styles.btn} onClick={() => setShowNewChat(true)}>
                 <ChatIcon />
               </div>
               <div className={styles.btn}>
@@ -56,7 +65,9 @@ function App() {
               <input type="search" placeholder='Procurar ou começar uma nova conversa' />
             </div>
           </div>
+
           <section className={styles.container_Sidebar_Chart}>
+
             {chatList.map((item, index) => (
               <ChatListItem
                 key={index}
@@ -65,12 +76,14 @@ function App() {
                 active={activeChat.chadId === item.chadId}
               />
             ))}
+
           </section>
+
         </nav>
 
         <main className={styles.Container_Main}>
           {activeChat.chadId !== undefined ? (
-            <ChatWindow />
+            <ChatWindow user={user} />
           ) : (
             <ChatNoSelect />
           )}

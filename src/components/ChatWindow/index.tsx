@@ -8,22 +8,67 @@ import CloseIcon from '@mui/icons-material/Close';
 import SendIcon from '@mui/icons-material/Send';
 import MicIcon from '@mui/icons-material/Mic';
 import SettingsVoiceIcon from '@mui/icons-material/SettingsVoice';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { MessageItem } from '../MessageItem';
 
 declare const window: any;
 
 const users = [
-    { chadId: '1s', name: 'Shelly Hunter', message: 'hello how are you?', image: 'https://randomuser.me/api/portraits/women/91.jpg' },
-    { chadId: '12s', name: 'Gwendolyn Jacobs', message: 'Hi !my boy ', image: 'https://randomuser.me/api/portraits/women/78.jpg' },
-    { chadId: '13s', name: 'Brett Hunt', message: 'Yeap! brother...!', image: 'https://randomuser.me/api/portraits/men/86.jpg' },
+    { name: 'Shelly Hunter', message: 'hello how are you?', image: 'https://randomuser.me/api/portraits/women/91.jpg', author: '1s' },
+    { name: 'Gwendolyn Jacobs', message: 'Hi !my boy ', image: 'https://randomuser.me/api/portraits/women/78.jpg', author: '1s' },
+    { name: 'Brett Hunt', message: 'Yeap! brother...!', image: 'https://randomuser.me/api/portraits/men/86.jpg', author: '111' },
+    { name: 'Shelly Hunter', message: 'hello how are you?', image: 'https://randomuser.me/api/portraits/women/91.jpg', author: '1s' },
+    { name: 'Gwendolyn Jacobs', message: 'Hi !my boy ', image: 'https://randomuser.me/api/portraits/women/78.jpg', author: '1s' },
+    { name: 'Brett Hunt', message: 'Yeap! brother...!', image: 'https://randomuser.me/api/portraits/men/86.jpg', author: '111' },
+    { name: 'Shelly Hunter', message: 'hello how are you?', image: 'https://randomuser.me/api/portraits/women/91.jpg', author: '1s' },
+    { name: 'Gwendolyn Jacobs', message: 'Hi !my boy ', image: 'https://randomuser.me/api/portraits/women/78.jpg', author: '1s' },
+    { name: 'Brett Hunt', message: 'Yeap! brother...!', image: 'https://randomuser.me/api/portraits/men/86.jpg', author: '111' },
+    { name: 'Shelly Hunter', message: 'hello how are you?', image: 'https://randomuser.me/api/portraits/women/91.jpg', author: '1s' },
+    { name: 'Gwendolyn Jacobs', message: 'Hi !my boy ', image: 'https://randomuser.me/api/portraits/women/78.jpg', author: '1s' },
+    { name: 'Brett Hunt', message: 'Yeap! brother...!', image: 'https://randomuser.me/api/portraits/men/86.jpg', author: '111' },
+    { name: 'Shelly Hunter', message: 'hello how are you?', image: 'https://randomuser.me/api/portraits/women/91.jpg', author: '1s' },
+    { name: 'Gwendolyn Jacobs', message: 'Hi !my boy ', image: 'https://randomuser.me/api/portraits/women/78.jpg', author: '1s' },
+    { name: 'Brett Hunt', message: 'Yeap! brother...!', image: 'https://randomuser.me/api/portraits/men/86.jpg', author: '111' },
+    { name: 'Shelly Hunter', message: 'hello how are you?', image: 'https://randomuser.me/api/portraits/women/91.jpg', author: '1s' },
+    { name: 'Gwendolyn Jacobs', message: 'Hi !my boy ', image: 'https://randomuser.me/api/portraits/women/78.jpg', author: '1s' },
+    { name: 'Brett Hunt', message: 'Yeap! brother...!', image: 'https://randomuser.me/api/portraits/men/86.jpg', author: '111' },
+    { name: 'Shelly Hunter', message: 'hello how are you?', image: 'https://randomuser.me/api/portraits/women/91.jpg', author: '1s' },
+    { name: 'Gwendolyn Jacobs', message: 'Hi !my boy ', image: 'https://randomuser.me/api/portraits/women/78.jpg', author: '1s' },
+    { name: 'Brett Hunt', message: 'Yeap! brother...!', image: 'https://randomuser.me/api/portraits/men/86.jpg', author: '111' },
+    { name: 'Shelly Hunter', message: 'hello how are you?', image: 'https://randomuser.me/api/portraits/women/91.jpg', author: '1s' },
+    { name: 'Gwendolyn Jacobs', message: 'Hi !my boy ', image: 'https://randomuser.me/api/portraits/women/78.jpg', author: '1s' },
+    { name: 'Brett Hunt', message: 'Yeap! brother...!', image: 'https://randomuser.me/api/portraits/men/86.jpg', author: '111' },
+    { name: 'Shelly Hunter', message: 'hello how are you?', image: 'https://randomuser.me/api/portraits/women/91.jpg', author: '1s' },
+    { name: 'Gwendolyn Jacobs', message: 'Hi !my boy ', image: 'https://randomuser.me/api/portraits/women/78.jpg', author: '1s' },
+    { name: 'Brett Hunt', message: 'Yeap! brother...!', image: 'https://randomuser.me/api/portraits/men/86.jpg', author: '111' },
+    { name: 'Shelly Hunter', message: 'hello how are you?', image: 'https://randomuser.me/api/portraits/women/91.jpg', author: '1s' },
+    { name: 'Gwendolyn Jacobs', message: 'Hi !my boy ', image: 'https://randomuser.me/api/portraits/women/78.jpg', author: '1s' },
+    { name: 'Brett Hunt', message: 'Yeap! brother...!', image: 'https://randomuser.me/api/portraits/men/86.jpg', author: '111' },
 ]
 
-export const ChatWindow = () => {
+interface IChatWindow {
+    user: {
+        userId: string;
+    }
+}
+
+export const ChatWindow = ({ user }: IChatWindow) => {
+    const body: any = useRef();
+
     const [openEmoji, setOpenEmoji] = useState(false)
     const [message, setMessage] = useState('')
     const [listening, setListening] = useState(false)
     const [messageList, setMessageList] = useState(users)
+
+
+    useEffect(() => {
+        //conteúdo dentro do body e maior que 
+        // a atura real da tela 
+        if (body.current.scrollHeight > body.current.offsetHeight) {
+            //se sim joga a rolagem para baixo
+            body.current.scrollTop = body.current.scrollHeight - body.current.offsetHeight
+        }
+    }, [messageList])
 
     const handleEmojiClick = (event: React.MouseEvent, data: IEmojiData) => {
         //receber o emoji clicado
@@ -87,11 +132,12 @@ export const ChatWindow = () => {
                 </div>
             </header>
 
-            <article>
+            <article ref={body}>
                 {messageList.map((item, index) => (
                     <MessageItem
                         key={index}
                         data={item}
+                        user={user}
                     />
                 ))}
 

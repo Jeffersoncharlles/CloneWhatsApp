@@ -2,18 +2,30 @@ import styles from './styles.module.scss'
 
 interface IMessage {
     data: {
-
+        name: string;
+        message: string;
+        image: string;
+        author: string
+    }
+    user: {
+        userId: string;
     }
 }
 
-export const MessageItem = ({ data }: IMessage) => {
+export const MessageItem = ({ data, user }: IMessage) => {
 
     return (
-        <div className={styles.container}>
-            <div className={styles.container_i}>
+        <div
+            className={styles.container}
+            style={{ justifyContent: String(user.userId) === String(data.author) ? 'flex-end' : 'flex-start' }}
+        >
+            <div
+                className={styles.container_i}
+                style={{ backgroundColor: String(user.userId) === String(data.author) ? '#DCF8C6' : '#fff' }}
+
+            >
                 <strong>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus porro ducimus itaque aliquam sed eveniet iusto pariatur dignissimos culpa doloribus harum similique illum, dolore magni quam laboriosam ipsa, blanditiis non.
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Suscipit, recusandae excepturi reiciendis inventore optio delectus necessitatibus. Quod mollitia eaque voluptatem accusantium non. Maxime totam, recusandae corporis possimus cumque in repudiandae!
+                    {data.message}
                 </strong>
                 <span>19:00</span>
             </div>
