@@ -1,6 +1,7 @@
 import styles from './styles.module.scss'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useUser } from '../../context/user';
 
 interface IActiveChat {
     chadId: string;
@@ -12,19 +13,22 @@ interface IActiveChat {
 interface INewChat {
     show: boolean;
     user: {
-        userId: string;
+        id: string;
     }
     chatList: IActiveChat[];
     setShow: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export const NewChat = ({ show, setShow, chatList, user }: INewChat) => {
-    const [contactList, setContactList] = useState([
-        { id: '21312', avatarUrl: 'https://randomuser.me/api/portraits/women/91.jpg', name: 'Jhoe Doe' },
-        { id: '21s', avatarUrl: 'https://randomuser.me/api/portraits/women/91.jpg', name: 'Jhoe Doe Jacson' },
-        { id: '211312', avatarUrl: 'https://randomuser.me/api/portraits/women/91.jpg', name: 'Jacson Doe' },
-        { id: '213s212', avatarUrl: 'https://randomuser.me/api/portraits/women/91.jpg', name: 'Jhoe Doe' },
-    ])
+    const { AllListContact, contactList } = useUser()
+
+    useEffect(() => {
+
+        if (user.id) {
+            AllListContact(user.id)
+
+        }
+    }, [user])
 
     return (
         <div className={styles.container} style={{ left: show ? 0 : -415 }}>
@@ -38,7 +42,7 @@ export const NewChat = ({ show, setShow, chatList, user }: INewChat) => {
             </header>
             <main>
                 {contactList.map((item, index) => (
-                    <div className={styles.container_n_i} key={item.id}>
+                    <div className={styles.container_n_i} key={index}>
                         <img src={item.avatarUrl} alt={item.name} />
                         <span>{item.name}</span>
                     </div>

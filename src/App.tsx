@@ -9,6 +9,8 @@ import { ChatListItem } from './components/ChatListItem';
 import { ChatNoSelect } from './components/ChatNoSelect';
 import { ChatWindow } from './components/ChatWindow';
 import { NewChat } from './components/NewChat';
+import { useUser } from './context/user';
+import { Login } from './pages/Login';
 
 
 interface IActiveChat {
@@ -18,21 +20,19 @@ interface IActiveChat {
   image: string;
 }
 
-const users = [
-  { chadId: '1s', name: 'Shelly Hunter', message: 'hello how are you?', image: 'https://randomuser.me/api/portraits/women/91.jpg' },
-  { chadId: '1ss', name: 'Shelly Hunter', message: 'Hi !my boy ', image: 'https://randomuser.me/api/portraits/women/91.jpg' },
-  { chadId: '1sss', name: 'Shelly Hunter', message: 'Yeap! brother...!', image: 'https://randomuser.me/api/portraits/women/91.jpg' },
-]
+
 
 function App() {
-  const [chatList, setChatList] = useState<IActiveChat[]>(users)
+  const { user } = useUser()
+  const [chatList, setChatList] = useState<IActiveChat[]>([])
   const [activeChat, setActiveChat] = useState<IActiveChat>({} as IActiveChat);
-  const [user, setUser] = useState({ userId: '111' })
   const [showNewChat, setShowNewChat] = useState(false)
 
-  useEffect(() => {
-
-  }, [])
+  if (!user.id) {
+    return (
+      <Login />
+    )
+  }
 
   return (
     <div className={styles.container}>
@@ -45,7 +45,7 @@ function App() {
             chatList={chatList}
           />
           <header>
-            <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="" />
+            <img src={user.avatarUrl} alt={user.name} />
             <div>
               <div className={styles.btn}>
                 <DonutLargeIcon />
