@@ -19,8 +19,8 @@ interface IActiveChat {
 
 const users = [
   { chadId: '1s', name: 'Shelly Hunter', message: 'hello how are you?', image: 'https://randomuser.me/api/portraits/women/91.jpg' },
-  { chadId: '12s', name: 'Gwendolyn Jacobs', message: 'Hi !my boy ', image: 'https://randomuser.me/api/portraits/women/78.jpg' },
-  { chadId: '13s', name: 'Brett Hunt', message: 'Yeap! brother...!', image: 'https://randomuser.me/api/portraits/men/86.jpg' },
+  { chadId: '1s', name: 'Shelly Hunter', message: 'Hi !my boy ', image: 'https://randomuser.me/api/portraits/women/91.jpg' },
+  { chadId: '1s', name: 'Shelly Hunter', message: 'Yeap! brother...!', image: 'https://randomuser.me/api/portraits/women/91.jpg' },
 ]
 
 function App() {
@@ -32,48 +32,50 @@ function App() {
   }, [])
 
   return (
-    <div className={styles.app}>
-      <nav className={styles.container_Sidebar}>
-        <header>
-          <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="" />
-          <div>
-            <div className={styles.btn}>
-              <DonutLargeIcon />
+    <div className={styles.container}>
+      <div className={styles.app}>
+        <nav className={styles.container_Sidebar}>
+          <header>
+            <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="" />
+            <div>
+              <div className={styles.btn}>
+                <DonutLargeIcon />
+              </div>
+              <div className={styles.btn}>
+                <ChatIcon />
+              </div>
+              <div className={styles.btn}>
+                <MoreVertIcon />
+              </div>
             </div>
-            <div className={styles.btn}>
-              <ChatIcon />
-            </div>
-            <div className={styles.btn}>
-              <MoreVertIcon />
+          </header>
+
+          <div className={styles.container_Sidebar_Search}>
+            <div>
+              <SearchIcon fontSize='small' style={{ color: '#919191' }} />
+              <input type="search" placeholder='Procurar ou começar uma nova conversa' />
             </div>
           </div>
-        </header>
+          <section className={styles.container_Sidebar_Chart}>
+            {chatList.map((item, index) => (
+              <ChatListItem
+                key={index}
+                data={item}
+                setActive={() => setActiveChat(item)}
+                active={activeChat.chadId === item.chadId}
+              />
+            ))}
+          </section>
+        </nav>
 
-        <div className={styles.container_Sidebar_Search}>
-          <div>
-            <SearchIcon fontSize='small' style={{ color: '#919191' }} />
-            <input type="search" placeholder='Procurar ou começar uma nova conversa' />
-          </div>
-        </div>
-        <section className={styles.container_Sidebar_Chart}>
-          {chatList.map((item, index) => (
-            <ChatListItem
-              key={index}
-              data={item}
-              setActive={() => setActiveChat(item)}
-              active={activeChat.chadId === item.chadId}
-            />
-          ))}
-        </section>
-      </nav>
-
-      <main className={styles.Container_Main}>
-        {activeChat.chadId !== undefined ? (
-          <ChatWindow />
-        ) : (
-          <ChatNoSelect />
-        )}
-      </main>
+        <main className={styles.Container_Main}>
+          {activeChat.chadId !== undefined ? (
+            <ChatWindow />
+          ) : (
+            <ChatNoSelect />
+          )}
+        </main>
+      </div>
     </div>
   )
 }

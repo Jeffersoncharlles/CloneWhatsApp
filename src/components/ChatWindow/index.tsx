@@ -9,13 +9,21 @@ import SendIcon from '@mui/icons-material/Send';
 import MicIcon from '@mui/icons-material/Mic';
 import SettingsVoiceIcon from '@mui/icons-material/SettingsVoice';
 import { useState } from 'react';
+import { MessageItem } from '../MessageItem';
 
 declare const window: any;
+
+const users = [
+    { chadId: '1s', name: 'Shelly Hunter', message: 'hello how are you?', image: 'https://randomuser.me/api/portraits/women/91.jpg' },
+    { chadId: '12s', name: 'Gwendolyn Jacobs', message: 'Hi !my boy ', image: 'https://randomuser.me/api/portraits/women/78.jpg' },
+    { chadId: '13s', name: 'Brett Hunt', message: 'Yeap! brother...!', image: 'https://randomuser.me/api/portraits/men/86.jpg' },
+]
 
 export const ChatWindow = () => {
     const [openEmoji, setOpenEmoji] = useState(false)
     const [message, setMessage] = useState('')
     const [listening, setListening] = useState(false)
+    const [messageList, setMessageList] = useState(users)
 
     const handleEmojiClick = (event: React.MouseEvent, data: IEmojiData) => {
         //receber o emoji clicado
@@ -58,6 +66,7 @@ export const ChatWindow = () => {
 
     return (
         <section className={styles.container}>
+
             <header>
                 <div className={styles.he_info}>
                     <img src="https://randomuser.me/api/portraits/women/91.jpg" alt="" />
@@ -77,9 +86,17 @@ export const ChatWindow = () => {
                     </div>
                 </div>
             </header>
+
             <article>
+                {messageList.map((item, index) => (
+                    <MessageItem
+                        key={index}
+                        data={item}
+                    />
+                ))}
 
             </article>
+
             <div className={styles.content_E} style={{ height: openEmoji ? '350px' : '0' }}>
                 <EmojiPicker
                     disableSearchBar
@@ -87,23 +104,18 @@ export const ChatWindow = () => {
                     onEmojiClick={handleEmojiClick}
                 />
             </div>
+
             <footer>
                 <div className={styles.pre}>
-                    <div className={styles.btn_c}
-                        onClick={() => setOpenEmoji(false)}
-                    >
+                    <div className={styles.btn_c} onClick={() => setOpenEmoji(false)} >
                         {openEmoji && (
                             <CloseIcon />
                         )}
-
                     </div>
-                    <div className={styles.btn_c}
-                        onClick={() => setOpenEmoji(true)}
-                    >
+                    <div className={styles.btn_c} onClick={() => setOpenEmoji(true)}>
                         {!openEmoji && (
                             <InsertEmoticonIcon />
                         )}
-
                     </div>
                 </div>
 
@@ -112,22 +124,17 @@ export const ChatWindow = () => {
                         placeholder='Digite uma mensagem'
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}
-
                     />
                 </div>
 
                 <div className={styles.send}>
                     {message === '' ? (
-                        <div className={styles.btn_c}
-                            onClick={handleMicClick}
-                        >
+                        <div className={styles.btn_c} onClick={handleMicClick}>
                             {listening ? (<SettingsVoiceIcon className={styles.btn_c_b} />)
                                 : (<MicIcon />)}
                         </div>
                     ) : (
-                        <div className={styles.btn_c}
-                            onClick={handleSendClick}
-                        >
+                        <div className={styles.btn_c} onClick={handleSendClick} >
                             <SendIcon />
                         </div>
                     )}

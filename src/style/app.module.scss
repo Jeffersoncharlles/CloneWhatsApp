@@ -1,7 +1,14 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .app {
     display: flex;
     height: 100vh;
     background: #EDEDED;
+
 }
 
 .btn {
