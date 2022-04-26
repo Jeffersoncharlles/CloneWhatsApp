@@ -43,5 +43,31 @@ export default {
             }
         })
         return list
+    },
+    createNewChat: async (user: any, contact: any) => {
+        let newChat = await db.collection('chats').add({
+            messages: [],
+            users: [user.id, contact.id]
+        });
+
+        console.log(user, contact)
+
+        await db.collection('users').doc(user.id).update({
+            chats: firebase.firestore.FieldValue.arrayUnion({
+                chatId: newChat.id,
+                title: contact.name,
+                image: contact.avatarUrl,
+                with: contact.id
+            })//add oque eu colocar em um array que ja existe
+        })
+
+        await db.collection('users').doc(contact.id).update({
+            chats: firebase.firestore.FieldValue.arrayUnion({
+                chatId: newChat.id,
+                title: user.name,
+                image: user.avatarUrl,
+                with: user.id
+            })//add oque eu colocar em um array que ja existe
+        })
     }
 }

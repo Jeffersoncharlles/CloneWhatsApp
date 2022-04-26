@@ -34,11 +34,14 @@ export const UserProvider = ({ children }: IProvider) => {
         setContactList(result)
     }
 
+    const CreateNewChat = async (user: IUser, contact: IUser) => {
+        const result = await Request.createNewChat(user, contact)
+    }
 
     return (
         <UserContext.Provider value={{
             user, contactList,
-            Sign, AllListContact
+            Sign, AllListContact, CreateNewChat
         }}>
             {children}
         </UserContext.Provider>

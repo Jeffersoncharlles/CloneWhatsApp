@@ -3,6 +3,7 @@ export interface IUserContext {
     user: any;
     contactList: IContact[]
     AllListContact: (userId: string) => Promise<void>
+    CreateNewChat: (user: IUser, contact: IUser) => Promise<void>
 }
 
 export interface IUser {

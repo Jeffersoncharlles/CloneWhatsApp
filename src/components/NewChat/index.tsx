@@ -14,21 +14,26 @@ interface INewChat {
     show: boolean;
     user: {
         id: string;
+        name: string;
+        avatarUrl: string;
     }
     chatList: IActiveChat[];
     setShow: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export const NewChat = ({ show, setShow, chatList, user }: INewChat) => {
-    const { AllListContact, contactList } = useUser()
+    const { AllListContact, contactList, CreateNewChat } = useUser()
 
     useEffect(() => {
-
         if (user.id) {
             AllListContact(user.id)
-
         }
     }, [user])
+
+    const handleCreateNewChat = async (contact: any) => {
+        CreateNewChat(user, contact)
+        setShow(false)
+    }
 
     return (
         <div className={styles.container} style={{ left: show ? 0 : -415 }}>
@@ -42,7 +47,7 @@ export const NewChat = ({ show, setShow, chatList, user }: INewChat) => {
             </header>
             <main>
                 {contactList.map((item, index) => (
-                    <div className={styles.container_n_i} key={index}>
+                    <div className={styles.container_n_i} key={index} onClick={() => handleCreateNewChat(item)}>
                         <img src={item.avatarUrl} alt={item.name} />
                         <span>{item.name}</span>
                     </div>
