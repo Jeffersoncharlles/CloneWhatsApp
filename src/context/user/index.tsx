@@ -1,6 +1,6 @@
-import { createContext, ReactNode, useContext, useState } from "react";
+import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import Request from '../../services/firebase'
-import { IContact, IUser, IUserContext } from './types'
+import { IContact, IUser, IUserContext, IChatList } from './types'
 
 interface IProvider {
     children: ReactNode
@@ -10,8 +10,17 @@ export const UserContext = createContext({} as IUserContext)
 
 
 export const UserProvider = ({ children }: IProvider) => {
-    const [user, setUser] = useState({ id: '5mqLvjnTdebHm0BlWr0S6UPUGOI3', name: 'Jefferson Nogueira', avatarUrl: 'https://graph.facebook.com/1433462710438007/picture' } as IUser)
+    const [user, setUser] = useState({} as IUser)
     const [contactList, setContactList] = useState<IContact[]>([])
+    const [chatList, setChatList] = useState<IChatList[]>([])
+    const [activeChat, setActiveChat] = useState<IChatList>({} as IChatList);
+    const [users, setUsers] = useState([]);
+
+    useEffect(() => {
+        if (user.id) {
+            HasChatList(user.id)
+        }
+    }, [user])
 
 
     const Sign = async () => {
@@ -38,10 +47,22 @@ export const UserProvider = ({ children }: IProvider) => {
         const result = await Request.createNewChat(user, contact)
     }
 
+    const HasChatList = async (userId: string) => {
+        Request.onChatList(userId, setChatList)
+    }
+
+    const HasChatContent = async (chatId: string, setMessageList: React.Dispatch<React.SetStateAction<never[]>>) => {
+        Request.onChatContent(chatId, setMessageList, setUsers)
+    }
+
+    const HasSendMessage = async (chatData: any, userId: string, type: string, body: any) => {
+        Request.sendMessage(chatData, userId, type, body, users)
+    }
+
     return (
         <UserContext.Provider value={{
-            user, contactList,
-            Sign, AllListContact, CreateNewChat
+            user, contactList, chatList, activeChat,
+            Sign, AllListContact, CreateNewChat, HasChatList, setActiveChat, HasChatContent, HasSendMessage
         }}>
             {children}
         </UserContext.Provider>

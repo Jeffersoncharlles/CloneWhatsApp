@@ -4,9 +4,8 @@ import { useEffect, useState } from 'react';
 import { useUser } from '../../context/user';
 
 interface IActiveChat {
-    chadId: string;
-    name: string;
-    message: string;
+    chatId: string;
+    title: string;
     image: string;
 }
 

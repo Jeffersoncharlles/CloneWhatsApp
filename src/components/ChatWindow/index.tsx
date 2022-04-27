@@ -10,55 +10,52 @@ import MicIcon from '@mui/icons-material/Mic';
 import SettingsVoiceIcon from '@mui/icons-material/SettingsVoice';
 import { useEffect, useRef, useState } from 'react';
 import { MessageItem } from '../MessageItem';
+import { useUser } from '../../context/user';
 
 declare const window: any;
-
-const users = [
-    { name: 'Shelly Hunter', message: 'hello how are you?', image: 'https://randomuser.me/api/portraits/women/91.jpg', author: '1s' },
-    { name: 'Gwendolyn Jacobs', message: 'Hi !my boy ', image: 'https://randomuser.me/api/portraits/women/78.jpg', author: '1s' },
-    { name: 'Brett Hunt', message: 'Yeap! brother...!', image: 'https://randomuser.me/api/portraits/men/86.jpg', author: '111' },
-    { name: 'Shelly Hunter', message: 'hello how are you?', image: 'https://randomuser.me/api/portraits/women/91.jpg', author: '1s' },
-    { name: 'Gwendolyn Jacobs', message: 'Hi !my boy ', image: 'https://randomuser.me/api/portraits/women/78.jpg', author: '1s' },
-    { name: 'Brett Hunt', message: 'Yeap! brother...!', image: 'https://randomuser.me/api/portraits/men/86.jpg', author: '111' },
-    { name: 'Shelly Hunter', message: 'hello how are you?', image: 'https://randomuser.me/api/portraits/women/91.jpg', author: '1s' },
-    { name: 'Gwendolyn Jacobs', message: 'Hi !my boy ', image: 'https://randomuser.me/api/portraits/women/78.jpg', author: '1s' },
-    { name: 'Brett Hunt', message: 'Yeap! brother...!', image: 'https://randomuser.me/api/portraits/men/86.jpg', author: '111' },
-    { name: 'Shelly Hunter', message: 'hello how are you?', image: 'https://randomuser.me/api/portraits/women/91.jpg', author: '1s' },
-    { name: 'Gwendolyn Jacobs', message: 'Hi !my boy ', image: 'https://randomuser.me/api/portraits/women/78.jpg', author: '1s' },
-    { name: 'Brett Hunt', message: 'Yeap! brother...!', image: 'https://randomuser.me/api/portraits/men/86.jpg', author: '111' },
-    { name: 'Shelly Hunter', message: 'hello how are you?', image: 'https://randomuser.me/api/portraits/women/91.jpg', author: '1s' },
-    { name: 'Gwendolyn Jacobs', message: 'Hi !my boy ', image: 'https://randomuser.me/api/portraits/women/78.jpg', author: '1s' },
-    { name: 'Brett Hunt', message: 'Yeap! brother...!', image: 'https://randomuser.me/api/portraits/men/86.jpg', author: '111' },
-    { name: 'Shelly Hunter', message: 'hello how are you?', image: 'https://randomuser.me/api/portraits/women/91.jpg', author: '1s' },
-    { name: 'Gwendolyn Jacobs', message: 'Hi !my boy ', image: 'https://randomuser.me/api/portraits/women/78.jpg', author: '1s' },
-    { name: 'Brett Hunt', message: 'Yeap! brother...!', image: 'https://randomuser.me/api/portraits/men/86.jpg', author: '111' },
-    { name: 'Shelly Hunter', message: 'hello how are you?', image: 'https://randomuser.me/api/portraits/women/91.jpg', author: '1s' },
-    { name: 'Gwendolyn Jacobs', message: 'Hi !my boy ', image: 'https://randomuser.me/api/portraits/women/78.jpg', author: '1s' },
-    { name: 'Brett Hunt', message: 'Yeap! brother...!', image: 'https://randomuser.me/api/portraits/men/86.jpg', author: '111' },
-    { name: 'Shelly Hunter', message: 'hello how are you?', image: 'https://randomuser.me/api/portraits/women/91.jpg', author: '1s' },
-    { name: 'Gwendolyn Jacobs', message: 'Hi !my boy ', image: 'https://randomuser.me/api/portraits/women/78.jpg', author: '1s' },
-    { name: 'Brett Hunt', message: 'Yeap! brother...!', image: 'https://randomuser.me/api/portraits/men/86.jpg', author: '111' },
-    { name: 'Shelly Hunter', message: 'hello how are you?', image: 'https://randomuser.me/api/portraits/women/91.jpg', author: '1s' },
-    { name: 'Gwendolyn Jacobs', message: 'Hi !my boy ', image: 'https://randomuser.me/api/portraits/women/78.jpg', author: '1s' },
-    { name: 'Brett Hunt', message: 'Yeap! brother...!', image: 'https://randomuser.me/api/portraits/men/86.jpg', author: '111' },
-    { name: 'Shelly Hunter', message: 'hello how are you?', image: 'https://randomuser.me/api/portraits/women/91.jpg', author: '1s' },
-    { name: 'Gwendolyn Jacobs', message: 'Hi !my boy ', image: 'https://randomuser.me/api/portraits/women/78.jpg', author: '1s' },
-    { name: 'Brett Hunt', message: 'Yeap! brother...!', image: 'https://randomuser.me/api/portraits/men/86.jpg', author: '111' },
-]
-
 interface IChatWindow {
     user: {
-        userId: string;
+        id: string;
+        name: string;
+        avatarUrl: string;
+    }
+    data: {
+        chatId: string;
+        title: string;
+        lastMessage: string;
+        lastMessageDate?: {
+            nanoseconds: number;
+            seconds: number;
+        }
+        image: string;
     }
 }
+interface IMessage {
+    author: string;
+    body: string;
+    date: {
+        nanoseconds: number;
+        seconds: number;
+    }
+    type: string
+}
 
-export const ChatWindow = ({ user }: IChatWindow) => {
+export const ChatWindow = ({ user, data }: IChatWindow) => {
+    const { HasChatContent, HasSendMessage } = useUser()
     const body: any = useRef();
 
     const [openEmoji, setOpenEmoji] = useState(false)
     const [message, setMessage] = useState('')
     const [listening, setListening] = useState(false)
-    const [messageList, setMessageList] = useState(users)
+    const [messageList, setMessageList] = useState<IMessage[]>([])
+
+    console.log(messageList)
+
+    useEffect(() => {
+        setMessageList([])
+        HasChatContent(data.chatId, setMessageList)
+
+    }, [data.chatId])
 
 
     useEffect(() => {
@@ -75,8 +72,18 @@ export const ChatWindow = ({ user }: IChatWindow) => {
         setMessage(message + data.emoji)
     }
 
+    // const handleInputKeyUp = (e: KeyboardEvent) => {
+    //     //apertou enter
+    //     if (e.keyCode == 13) {
+    //         handleSendClick()
+    //     }
+    // }
     const handleSendClick = () => {
-
+        if (message !== '') {
+            HasSendMessage(data, user.id, 'text', message)
+            setMessage('');
+            setOpenEmoji(false)
+        }
     }
 
     let recognition: any = null;
@@ -105,18 +112,14 @@ export const ChatWindow = ({ user }: IChatWindow) => {
         }
     }
 
-
-
-
-
     return (
         <section className={styles.container}>
 
             <header>
                 <div className={styles.he_info}>
-                    <img src="https://randomuser.me/api/portraits/women/91.jpg" alt="" />
+                    <img src={data.image} alt={data.title} />
                     <span>
-                        Shelly Hunter
+                        {data.title}
                     </span>
                 </div>
                 <div className={styles.he_btn}>
@@ -170,6 +173,7 @@ export const ChatWindow = ({ user }: IChatWindow) => {
                         placeholder='Digite uma mensagem'
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}
+                        onKeyUp={(e) => e.keyCode == 13 ? handleSendClick() : () => { }}
                     />
                 </div>
 

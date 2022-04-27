@@ -13,20 +13,10 @@ import { useUser } from './context/user';
 import { Login } from './pages/Login';
 
 
-interface IActiveChat {
-  chadId: string;
-  name: string;
-  message: string;
-  image: string;
-}
-
-
-
 function App() {
-  const { user } = useUser()
-  const [chatList, setChatList] = useState<IActiveChat[]>([])
-  const [activeChat, setActiveChat] = useState<IActiveChat>({} as IActiveChat);
+  const { user, chatList, activeChat, setActiveChat } = useUser()
   const [showNewChat, setShowNewChat] = useState(false)
+
 
   if (!user.id) {
     return (
@@ -70,10 +60,10 @@ function App() {
 
             {chatList.map((item, index) => (
               <ChatListItem
-                key={index}
+                key={String(item.chatId)}
                 data={item}
                 setActive={() => setActiveChat(item)}
-                active={activeChat.chadId === item.chadId}
+                active={activeChat.chatId === item.chatId}
               />
             ))}
 
@@ -82,11 +72,15 @@ function App() {
         </nav>
 
         <main className={styles.Container_Main}>
-          {activeChat.chadId !== undefined ? (
-            <ChatWindow user={user} />
+          {activeChat.chatId !== undefined ? (
+            <ChatWindow
+              user={user}
+              data={activeChat}
+            />
           ) : (
             <ChatNoSelect />
           )}
+
         </main>
       </div>
     </div>
